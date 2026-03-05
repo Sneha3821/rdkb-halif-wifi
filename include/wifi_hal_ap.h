@@ -3028,6 +3028,7 @@ typedef struct
     char tcm_exp_weightage[32];          /**< Alpha/Exponential weight used in the Exponential Moving Average formula. */
     char tcm_gradient_threshold[32];     /**< Threshold against which TCM Exponential Moving Average is computed. */
     char tcm_client_deny_assoc_info[64]; /**< Transient Client Management deny/assoc information. */
+    bool tcm_enable;
     wifi_vap_name_t vap_name;            /**< VAP name. */
 } __attribute__((packed)) wifi_preassoc_control_t;
 
