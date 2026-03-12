@@ -3051,6 +3051,7 @@ typedef struct
     char tcm_gradient_threshold[32];     /**< Threshold against which TCM Exponential Moving Average is computed. */
     char tcm_client_deny_assoc_info[64]; /**< Transient Client Management deny/assoc information. */
     wifi_vap_name_t vap_name;            /**< VAP name. */
+BOOL tcm_enable;
 } __attribute__((packed)) wifi_preassoc_control_t;
 
 /**
