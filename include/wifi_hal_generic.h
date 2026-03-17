@@ -812,14 +812,23 @@ typedef enum
     STR = 0x1, /**< Single-user Transmit and Receive (STR). */
     NSTR = 0x2, /**< Non-STR. */
     eMLSR = 0x4, /**< Enhanced Multi-Link Single-user Resource (eMLSR). */
-    eMLMR = 0x8, /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
-    TIDLinkMapNegotiation = 0x10 /**< TID to Link Mapping Negotiation support. */
+    eMLMR = 0x8 /**< Enhanced Multi-Link Multi-user Resource (eMLMR). */
 } wifi_multi_link_modes_t;
 
 /**
  * @brief Maximum size of an interface name.
  */
 #define MAXIFACENAMESIZE 64
+
+/**
+ * @brief HT (802.11n) capability related sizes
+ */
+#define HT_MCS_SET_LEN          16
+
+/**
+ * @brief VHT (802.11ac) capability related sizes
+ */
+#define VHT_MCS_SET_LEN         8
 
 /**
  * @brief Wi-Fi 6/7 capability length definitions.
@@ -838,6 +847,7 @@ typedef enum
 typedef struct
 {
     UINT index; /**< Radio index. */
+    UINT rdk_radio_index; /**< Rdk radio index. */
     CHAR ifaceName[MAXIFACENAMESIZE]; /**< The interface name. */
     UINT numSupportedFreqBand; /**< The number of supported frequency bands. */
     wifi_freq_bands_t band[MAX_NUM_FREQ_BAND]; /**< The frequency band list. */
@@ -857,6 +867,12 @@ typedef struct
     UINT maxNumberVAPs; /**< Maximum number of VAPs. */
     BOOL mcast2ucastSupported; /**< True if 'multicast to unicast' conversion is supported. */
     wifi_multi_link_modes_t mldOperationalCap; /**< Bitmask indicating WiFi 7 supported modes */
+    BOOL TIDLinkMapNegotiation; /**< True if 'TID to Link Mapping Negotiation' is supported. */
+    USHORT ht_capab; /**< HT (IEEE 802.11n) capabilities */
+    UCHAR mcs_set[HT_MCS_SET_LEN]; /**< MCS set for HT (IEEE 802.11n) */
+    UCHAR ampdu_params; /**< A-MPDU parameters for HT (IEEE 802.11n) */
+    UINT vht_capab; /**< VHT (IEEE 802.11ac) capabilities */
+    UCHAR vht_mcs_set[VHT_MCS_SET_LEN]; /**< VHT MCS set for VHT (IEEE 802.11ac) */
     BOOL wifi6_supported; /**< Whether WiFi6 (HE) is supported */
     UCHAR he_phy_cap[HE_MAX_PHY_CAPAB_SIZE]; /**< HE PHY capabilities */
     UCHAR he_mac_cap[HE_MAX_MAC_CAPAB_SIZE]; /**< HE MAC capabilities */
@@ -1245,6 +1261,8 @@ typedef struct _wifi_associated_dev3
     ULLONG cli_RxRetries; /**< Number of RX retries. */
     ULLONG cli_RxErrors; /**< Number of RX errors. */
     BOOL cli_MLDEnable; /* Indicates whether the connected client uses a single link or multi-link connections, false - single link and true - multi-link. */
+    wifi_multi_link_modes_t cli_MLModeCapa; /* Bitmap of the the MLD operation modes supported by the client */
+    BOOL cli_TIDLinkMapNegotiation; /* Indicates whether TID to Link MAP negotiation is supported by client */
     mac_address_t cli_MLDAddr; /* Indicates the MLD MAC address of the connected client, 00's for non-Wi-Fi 7 clients. */
 } wifi_associated_dev3_t;
 
